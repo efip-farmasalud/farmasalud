@@ -3,9 +3,8 @@ class call_apis
 {
   static login(url)
   {
-    var salida = ""
     var type = "GET"
-    $.ajax(
+    var salida = $.ajax(
     {
       type: type,
       url: url,
@@ -22,8 +21,7 @@ class call_apis
       success: function(data)
       {
         console.log("estas logeado correctamente :)");
-        salida = data ; 
-        return salida;
+        return data;
       },
       error: function (xhr, textStatus, errorThrown) 
       {
@@ -34,11 +32,11 @@ class call_apis
         console.log(xhr.responseJSON.url_login);
         var newURL = window.location.host + "" + window.location.pathname ;
         window.location.assign(xhr.responseJSON.url_login + "/" + newURL);
-        console.log("termino el login fail")
+        console.log("termino el login fail");
+        return data;
       }
     }).responseJSON;
-    console.log("salida es : " + salida)
-    console.log(0)
+    console.log("salida es : " + salida);
     try {
       return salida 
     }
@@ -76,13 +74,11 @@ class call_apis
         console.log("Problema En Get ");
         console.log(textStatus)
         console.log(xhr);
-        console.log(errorThrown)
-        ;
-
+        console.log(errorThrown);
         if (confirm ("Error En get : " + textStatus + "\n Probar relogearse ?"  ))
         {
           console.log("Intentando relogearse")
-          call_apis.login(urlApiSucursales + "login/");
+          call_apis.login( config.urlLogin);
           return false;
         }
         else
@@ -107,10 +103,6 @@ class call_apis
   
   static post(url_post, postData)
   {
-    console.log("entro en post")
-    console.log("url :" + url_post)
-    console.log("postdata:" + postData)
-    console.log(JSON.stringify(postData))
     var type = "POST"
     var dataType = "json"
     var salida = $.ajax(
@@ -143,7 +135,7 @@ class call_apis
         if (confirm ("Error En post : " + e.responseText + "\n http response : " + e.status + " \nProbar relogearse ?"  ))
         {
           console.log("Intentando relogearse")
-          call_apis.login(urlApiSucursales + "login/");
+          call_apis.login(config.urlLogin);
           return false;
         }
         else
@@ -157,7 +149,26 @@ class call_apis
     console.log(salida)
     return salida
   }
+}
 
+class usuario 
+{
+  constructor(usuario,email,logout,id_menu_usuario,id_email,id_logout)
+  {
+    this.user = usuario;
+    this.email = email;
+    this.logout = logout;
+    this.id_menu_usuario = id_menu_usuario;
+    this.id_email = id_email;
+    this.id_logout = id_logout;
+  }
+  datos ()
+  {
+    document.getElementById(this.id_menu_usuario).innerHTML = " " + this.user + "";
+    document.getElementById(this.id_email).innerHTML = " " + this.email + "";
+    document.getElementById(this.id_logout).href = this.logout;
+    //this.user = call_apis.get(config.urlUsers)
+  }
 }
 
 class inventory
@@ -306,7 +317,7 @@ class maneja_inventory
     postData["cantidad"] = parseInt(this.cantidad);
     postData["fecha_vencimiento"] = this.fecha_vencimiento;
     postData["barcode"] = this.barcode;
-    var salida = call_apis.post(urlApiSucursales + "inventory/agregarinventario",postData);
+    var salida = call_apis.post(config.urlApiSucursales  + "inventory/agregarinventario",postData);
     var men = new mensajes(this.id_success);
     if ( salida.statusCode == 200 )
     {
@@ -327,7 +338,7 @@ class maneja_inventory
     postData["cantidad"] = parseInt(this.cantidad);
     postData["fecha_vencimiento"] = this.fecha_vencimiento;
     postData["barcode"] = this.barcode;
-    var salida = call_apis.post(urlApiSucursales + "inventory/eliminarinventario",postData);
+    var salida = call_apis.post(config.urlApiSucursales  + "inventory/eliminarinventario",postData);
     var men = new mensajes(this.id_success);
     if ( salida.statusCode == 200 )
     {
@@ -459,7 +470,7 @@ function search_product(elemento,id)
   console.log(id)
   console.log(search_art)
   //Le pego a la api y me traigo todos los productos que coincidan con el nombre de inventario
-  json_allproduct = call_apis.get(urlApiSucursales + "inventory/" + search_art)
+  json_allproduct = call_apis.get(config.urlApiSucursales  + "inventory/" + search_art)
   //json_allproduct = search.get_articulos_stock(search_art)
   //Actualizo el div lista_de_producto con el inventory encontrado
   inventory.list(json_allproduct,id,select_sucu,checkbox_art)
@@ -498,12 +509,12 @@ function valido_form(e) {
     });
     try
     {
-      salida = call_apis.post(urlApiSucursales + "articulos/agregararticulo",postData);
+      salida = call_apis.post(config.urlApiSucursales  + "articulos/agregararticulo",postData);
     }
     catch(err)
     {
       console.log("problema call_apis.post : " + err);
-      alert("Error al cargar el articulo \nurl : " +  urlApiSucursales + "sucursales/\nverficar login o api");
+      alert("Error al cargar el articulo \nurl : " +  config.urlApiSucursales  + "sucursales/\nverficar login o api");
       return false;
     }
     try 
@@ -512,34 +523,17 @@ function valido_form(e) {
       if ( salida.statusCode == 200 )
       {
         men.success("Articulo agregado correctamente")
-        /*console.log("todo ok")
-        console.log(salida)
-        str = '<div class="alert alert-success alert-dismissible">'
-          + '<button type="button" class="close" data-dismiss="alert">&times;</button>'
-          + '<strong>Success!</strong> Articulo agregado correctamente.'
-          + '</div>'
-          $("#addarticulo-succes").html(str);*/
-          document.getElementById(formID).reset(); 
+        document.getElementById(formID).reset(); 
       }
       else
       {
         men.error("Articulo No Agregado \n statusCode : " + salida.statusCode + "\n\nstatus : " + salida.status + "\n\message : " + salida.message )
-        /*str = '<div class="alert alert-danger alert-dismissible">'
-          + '<button type="button" class="close" data-dismiss="alert">&times;</button>'
-          + '<strong>CRITICAL!</strong> Articulo No Agregado.' 
-          + '<p> Mensaje : ' + salida.status + '</p>'
-          + '</div>'
-          $("#addarticulo-succes").html(str);
-        
-        console.log("else amigo")
-        console.log(salida)
-        console.log(salida.statusCode)*/
       }
     }
     catch(e)
     {
       console.log("problema call_apis.post : " + e);
-      alert("Error al generar mensaje de salida \nurl : " +  urlApiSucursales + "sucursales/\nverficar login o api\nmensaje : " + salida);
+      alert("Error al generar mensaje de salida \nurl : " +  config.urlApiSucursales  + "sucursales/\nverficar login o api\nmensaje : " + salida);
       return false;
     }
   }
@@ -553,7 +547,7 @@ function carga_sucursales_select(v)
     var ID = v.id;   //get form ID
     if ( typeof sucu == 'undefined' )
     {
-      window.sucu = call_apis.get(urlApiSucursales + "sucursales/")
+      window.sucu = call_apis.get(config.urlApiSucursales  + "sucursales/")
     }
     else
     {
@@ -590,33 +584,31 @@ function carga_sucursales_select(v)
 }
 $(document).ready(function()
 {
-  urlApiSucursales = "http://localhost:9080/";
-  urlArticulos = "http://localhost:9080/"
+  var config = new configuration();
   try
   {
-    call_apis.login(urlApiSucursales + "login/");
     console.log("aca va el login")
+    call_apis.login(config.urlLogin);
   }
   catch(e)
   {
     console.log("entro en el catch")
-    alert("Error en login \nurl : " +  urlApiSucursales + "login/\nverficar login o api");
+    alert("Error en login \nurl : " +  config.urlLogin  + "login/\nverficar login o api");
     console.log(e)
   }
   try
   {
     console.log("agrego menu usuario");
-    var user = call_apis.get(urlApiSucursales + "user/")
-    console.log(user)
-    document.getElementById("menu-usario").innerHTML = " " + user.username + "";
-    document.getElementById("email").innerHTML = " " + user.email + "";
-    document.getElementById("logout").href = "http://localhost:9080/logout/localhost/farmasalud";
+    var user = call_apis.get(config.urlUsers)
+    u = new usuario(user.username,user.email,config.logut_url,config.id_menu_usuario,config.id_email,config.id_email,config.id_logout)
+    u.datos()
   }
-  catch
+  catch (e)
   {
-    console.log("Usuario no logeado");
-    alert("No pude obtener datos del usuario \nurl : " +  urlApiSucursales + "user/\nverficar login o api");
-    document.getElementById("menu-usario").innerHTML = "  Usuario no logeado ";
+    console.log("Problemas al armar el menu de usuario");
+    console.log(e)
+    alert("No pude obtener datos del usuario \nurl : " +  config.urlUsers + "user/\nverficar login o que la api este respondiendo correctamente\n" + e);
+    document.getElementById("menu-usario").innerHTML = "  Problemas con el usuario ";
   }
 });
 
