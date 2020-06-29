@@ -406,7 +406,7 @@ function agregar_inventario(form,succes_collapse)
 
 function select_agregar_eliminar(element,id_date,id_cantidad,cant_max)
 {
-  console.log(element)
+  //console.log(element)
   if ( element.value == 0 )
   {
     /* Muestro el date bloqueado para que pueda agregar un articulo con otra fecha de vecimiento */
