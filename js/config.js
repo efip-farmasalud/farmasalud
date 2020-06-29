@@ -4,7 +4,7 @@ class configuration
   {
     this.urlApiSucursales = "http://localhost:9080/";
     this.urlArticulos = "http://localhost:9080/";
-    this.urlInventario = "http://localhost:9080/";
+    this.urlInventario = "http://localhost:9080/inventory/";
     this.urlLogin = "http://localhost:9080/login/";
     this.urlUsers = "http://localhost:9080/user/";
     this.logut_url = "http://localhost:9080/logout/localhost/farmasalud";

@@ -150,27 +150,6 @@ class call_apis
     return salida
   }
 }
-
-class usuario 
-{
-  constructor(usuario,email,logout,id_menu_usuario,id_email,id_logout)
-  {
-    this.user = usuario;
-    this.email = email;
-    this.logout = logout;
-    this.id_menu_usuario = id_menu_usuario;
-    this.id_email = id_email;
-    this.id_logout = id_logout;
-  }
-  datos ()
-  {
-    document.getElementById(this.id_menu_usuario).innerHTML = " " + this.user + "";
-    document.getElementById(this.id_email).innerHTML = " " + this.email + "";
-    document.getElementById(this.id_logout).href = this.logout;
-    //this.user = call_apis.get(config.urlUsers)
-  }
-}
-
 class inventory
 {
   static list(elements, id, select_sucu, checkbox_art)
@@ -184,27 +163,22 @@ class inventory
         //console.log("entro en el primer if checkbox_Art : " + checkbox_art )
         if ( checkbox_art  || obj.cantidad != "-" )
         {
-          console.log("obj.cantindad")
-          console.log(obj.cantidad)
-          /* Convierto la fecha de vencimiento en iso para poder completar correctamente el date*/ 
-          console.log("obj.fecha_venc")
-          console.log(obj.fecha_venc)
+          /* 
+            Convierto la fecha de vencimiento en iso para poder completar correctamente el date el if es por que si existe el articulo
+            Pero nunca se cargo ningun inventario la fecha viene vacia
+          */ 
           if ( obj.fecha_venc != "-" )
           {
-            console.log(obj.fecha_venc)
             var myTime = new moment.utc(obj.fecha_venc, "Do/MM/YYYY").utc();
-            console.log(myTime)
             var fechavencimiento = myTime.toISOString().substr(0, 10);
           }
-
-          //console.log("entro en el segundo if")
-          //str.split('/').join(',')
-          //var ids_form = obj.nombre + obj.barcode + obj.sucursales_id + obj.fecha_venc.split('/').join('-') ;
           var aleatorio = Math.floor(Math.random() * 100000000);
-          //var aleatorio = Math.random(); 
           var ids_form = obj.nombre + obj.barcode + obj.sucursales_id + aleatorio ;
           str = str + '<nav class="navbar mt-3 pl-3 pr-3 col-sm-12 shadow-sm p-3 bg-white rounded">'
           + '<div class="col-s-1 justify-content-between"><span><b>'
+          /*
+            si obj.cantidad viene con guion pongo el signo menos para identificar que no hay stock si no pongo tilde
+          */
           if (  obj.cantidad == "-" )
           {
             str = str + '<svg viewBox="0 0 24 24" width="24" height="24" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><line x1="5" y1="12" x2="19" y2="12"></line></svg>'
@@ -295,6 +269,28 @@ class inventory
 
 }
 
+class usuario 
+{
+  constructor(usuario,email,logout,id_menu_usuario,id_email,id_logout)
+  {
+    this.user = usuario;
+    this.email = email;
+    this.logout = logout;
+    this.id_menu_usuario = id_menu_usuario;
+    this.id_email = id_email;
+    this.id_logout = id_logout;
+  }
+  datos ()
+  {
+    document.getElementById(this.id_menu_usuario).innerHTML = " " + this.user + "";
+    document.getElementById(this.id_email).innerHTML = " " + this.email + "";
+    document.getElementById(this.id_logout).href = this.logout;
+    //this.user = call_apis.get(config.urlUsers)
+  }
+}
+
+
+
 class maneja_inventory 
 {
   constructor(sucursal,barcode,cantidad,fecha_vencimiento,id_success)
@@ -317,7 +313,7 @@ class maneja_inventory
     postData["cantidad"] = parseInt(this.cantidad);
     postData["fecha_vencimiento"] = this.fecha_vencimiento;
     postData["barcode"] = this.barcode;
-    var salida = call_apis.post(config.urlApiSucursales  + "inventory/agregarinventario",postData);
+    var salida = call_apis.post(config.urlInventario  + "agregarinventario",postData);
     var men = new mensajes(this.id_success);
     if ( salida.statusCode == 200 )
     {
@@ -338,7 +334,7 @@ class maneja_inventory
     postData["cantidad"] = parseInt(this.cantidad);
     postData["fecha_vencimiento"] = this.fecha_vencimiento;
     postData["barcode"] = this.barcode;
-    var salida = call_apis.post(config.urlApiSucursales  + "inventory/eliminarinventario",postData);
+    var salida = call_apis.post(config.urlInventario  + "eliminarinventario",postData);
     var men = new mensajes(this.id_success);
     if ( salida.statusCode == 200 )
     {
@@ -379,15 +375,12 @@ class mensajes
 
 function agregar_inventario(form,succes_collapse)
 {
-  console.log(form)
-  console.log(succes_collapse)
   var formID = form.target.id;   //get form ID
   var f = document.getElementById(formID);
   if (f.checkValidity() === false)       
   {  
     event.preventDefault();  
     event.stopPropagation();
-    //console.log("validateif"); 
     f.classList.add('was-validated');        
   } 
   else
@@ -395,15 +388,12 @@ function agregar_inventario(form,succes_collapse)
     var abm_inv = new maneja_inventory(form.target[0].value,form.target[1].value,form.target[3].value,form.target[4].value,succes_collapse)
     if ( form.target[2].value == 0 )
     {
-      console.log(form)
       abm_inv.agregar();
       return false
     }
     else if ( form.target[2].value == 1 )
-    {
-      console.log(form)    
+    {   
       abm_inv.eliminar();
-      //alert("amigo elegiste eliminar y todavia no esta esta funcion");
       return false;
     }
     else
@@ -434,23 +424,19 @@ function select_agregar_eliminar(element,id_date,id_cantidad,cant_max)
   }
 }
 
-
-
-
 function search_product(elemento,id)
 {
-  console.log(JSON.stringify(elemento));
   // Tomo los elementos del campo search que tiene como id "buscar_producto"
   for(I = 0; I < elemento.length; I++)
   {
+    // si el type es select-one es la id de la sucursal
     if ( elemento[I].type == "select-one" )
     {
       var select_sucu = elemento[I].value ;
     }
+    // si el type es search es lo que esta buscando 
     else if ( elemento[I].type == "search" )
     {
-      //console.log("muestro I textLength")
-      //console.log(elemento[I].textLength)
       if ( elemento[I].textLength == 0  )
       {
         // si el campo search esta vacio le agrego el wildcard para que busque todo y no falle
@@ -458,6 +444,7 @@ function search_product(elemento,id)
       }
       else
       {
+        // si no esta vacio relleno con lo que esta buscando
         var search_art = elemento[I].value ; 
       }
       
@@ -467,11 +454,8 @@ function search_product(elemento,id)
       var checkbox_art = elemento[I].checked ;
     }
   }
-  console.log(id)
-  console.log(search_art)
   //Le pego a la api y me traigo todos los productos que coincidan con el nombre de inventario
-  json_allproduct = call_apis.get(config.urlApiSucursales  + "inventory/" + search_art)
-  //json_allproduct = search.get_articulos_stock(search_art)
+  json_allproduct = call_apis.get(config.urlInventario + search_art)
   //Actualizo el div lista_de_producto con el inventory encontrado
   inventory.list(json_allproduct,id,select_sucu,checkbox_art)
 }
