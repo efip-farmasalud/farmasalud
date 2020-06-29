@@ -1,0 +1,15 @@
+.list-group-item.active {
+  z-index: 2;
+  color: #495057;
+  background-color: #dae0e5 !important;
+  border-color: transparent;
+}
+.btn-transparent
+{
+  color: #ffffff;
+}
+.btn-primary-outline {
+  background-color: transparent;
+  border-color: transparent;
+}
+
