@@ -174,6 +174,7 @@ class inventory
           }
           var aleatorio = Math.floor(Math.random() * 100000000);
           var ids_form = obj.nombre + obj.barcode + obj.sucursales_id + aleatorio ;
+          var ids_form = ids_form.replace(/ /gm,'');
           str = str + '<nav class="navbar mt-3 pl-3 pr-3 col-sm-12 shadow-sm p-3 bg-white rounded">'
           + '<div class="col-s-1 justify-content-between"><span><b>'
           /*
