@@ -568,7 +568,7 @@ function carga_sucursales_select(v)
 }
 $(document).ready(function()
 {
-  var config = new configuration();
+  config = new configuration();
   try
   {
     console.log("aca va el login")
