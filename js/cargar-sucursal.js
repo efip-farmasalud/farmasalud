@@ -440,7 +440,7 @@ function search_product(elemento,id)
       if ( elemento[I].textLength == 0  )
       {
         // si el campo search esta vacio le agrego el wildcard para que busque todo y no falle
-        var search_art = "%"
+        var search_art = "%25"
       }
       else
       {
