@@ -584,7 +584,7 @@ $(document).ready(function()
   {
     console.log("agrego menu usuario");
     var user = call_apis.get(config.urlUsers)
-    u = new usuario(user.username,user.email,config.logut_url,config.id_menu_usuario,config.id_email,config.id_email,config.id_logout)
+    u = new usuario(user.username,user.email,config.logut_url,config.id_menu_usuario,config.id_email,config.id_logout)
     u.datos()
   }
   catch (e)
