@@ -5,8 +5,8 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="description" content="Efip Farma Salud">
+  <meta name="author" content="Matias Gonzalo Calvo">
 
   <title>Farma Salud</title>
 
@@ -14,6 +14,7 @@
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
   <!-- Fin bootstrap core CSS -->
+
   <!-- Add js jquery bootstrap -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> 
@@ -27,7 +28,7 @@
   <link rel="stylesheet" href="css/efip.css">
   <!-- Fin efip css-->
   <!-- efip js -->
-  <script src="js/cargar-sucursal.js"></script>
+  <script src="js/farmasalud.js"></script>
   <script src="js/config.js"></script>
   <!-- Fin efip js-->
   
@@ -66,9 +67,10 @@
       -->
       </div>
     </div>
-    <!-- /#sidebar-wrapper -->
+    <!-- Find sidebar -->
     <!-- page-content-wrapper -->
     <div id="page-content-wrapper">
+      <!-- Menu arriba contiene boton ocultar menu y usuario ->
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <!-- Boton oculta menu -->
         <button class="btn-sm btn btn-light bg-light" id="menu-toggle"><span class="navbar-toggler-icon"></span></button>
@@ -99,7 +101,10 @@
           </ul>
         </div>
       </nav>
+      <!-- Fin arriba contiene boton ocultar menu y usuario -->
 
+
+      <!-- Comineso Stock -->
       <div class="col-sm">
         <div class="tab-content">
           <!-- Stock if stock--> 
@@ -111,6 +116,7 @@
               </li>
             </ul>
             <!-- Fin head Consulta de Stock -->
+
             <!-- Select sucursales y Search -->
             <nav class="navbar shadow-sm p-3 mb-5 bg-white rounded">
               <form class="form-inline col-sm-12" id="search_art"  oninput="search_product(this,'lista_de_producto')" >
@@ -123,6 +129,7 @@
                 <!-- Fin Completo Sucursales con js cargar-sucursal.js -->
     
                 <!-- Completo con js cargar-sucursal.js parte de producto -->
+
                 <!--search ejecuta javascript search_product y agrega los div-->
                 <div class="col-sm-3">
                   <input class="form-control mr-sm-2" type="search" placeholder="Nombre del producto" aria-label="first" 
@@ -244,6 +251,7 @@
               <div id="addarticulo-succes">
               </div>
             </form>    
+            <!-- Fin Form Agregar producto -->
           </div>
            <!-- Fin de articulo id addarticulo -->
 
@@ -262,7 +270,7 @@
 
 
 
-           <!-- Vacio -->
+           <!-- Vacio para usar en los botones todavia no configurados -->
            <div class="tab-pane fade" id="vacio" role="tabpanel" aria-labelledby="vacio-tab">
             <ul class="nav nav-pills nav-fill">
               <li class="nav-item">
@@ -282,12 +290,6 @@
     </div>
     <!-- /#wrapper -->
   </div>
-
-  <!-- Bootstrap core JavaScript -->
-  <!-- 
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  -->
   <!-- Menu Toggle Script -->
   <script>
     $("#menu-toggle").click(function(e) {
