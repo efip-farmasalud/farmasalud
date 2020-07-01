@@ -174,6 +174,7 @@ class inventory
           }
           var aleatorio = Math.floor(Math.random() * 100000000);
           var ids_form = obj.nombre + obj.barcode + obj.sucursales_id + aleatorio ;
+          var ids_form = ids_form.replace(/ /gm,'');
           str = str + '<nav class="navbar mt-3 pl-3 pr-3 col-sm-12 shadow-sm p-3 bg-white rounded">'
           + '<div class="col-s-1 justify-content-between"><span><b>'
           /*
@@ -406,7 +407,7 @@ function agregar_inventario(form,succes_collapse)
 
 function select_agregar_eliminar(element,id_date,id_cantidad,cant_max)
 {
-  console.log(element)
+  //console.log(element)
   if ( element.value == 0 )
   {
     /* Muestro el date bloqueado para que pueda agregar un articulo con otra fecha de vecimiento */
@@ -440,7 +441,7 @@ function search_product(elemento,id)
       if ( elemento[I].textLength == 0  )
       {
         // si el campo search esta vacio le agrego el wildcard para que busque todo y no falle
-        var search_art = "%"
+        var search_art = "%25"
       }
       else
       {
@@ -568,7 +569,7 @@ function carga_sucursales_select(v)
 }
 $(document).ready(function()
 {
-  var config = new configuration();
+  config = new configuration();
   try
   {
     console.log("aca va el login")
@@ -584,7 +585,7 @@ $(document).ready(function()
   {
     console.log("agrego menu usuario");
     var user = call_apis.get(config.urlUsers)
-    u = new usuario(user.username,user.email,config.logut_url,config.id_menu_usuario,config.id_email,config.id_email,config.id_logout)
+    u = new usuario(user.username,user.email,config.logut_url,config.id_menu_usuario,config.id_email,config.id_logout)
     u.datos()
   }
   catch (e)
