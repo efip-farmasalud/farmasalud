@@ -1,6 +1,31 @@
 jQuery.support.cors = true;
 class call_apis
 {
+  static native_login(url)
+  {
+    fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include'
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Access-Control-Allow-Origin':'*',
+            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+            'Access-Control-Allow-Headers': '*'
+        },
+    })
+    .then(function(response) {
+        console.log('response =', response);
+        return response.json();
+    })
+    .then(function(data) {
+        console.log('data = ', data);
+    })
+    .catch(function(err) {
+        console.error(err);
+    });
+  }
+  
   static login(url)
   {
     var type = "GET"
@@ -150,6 +175,7 @@ class call_apis
     return salida
   }
 }
+
 class inventory
 {
   static list(elements, id, select_sucu, checkbox_art)
@@ -570,7 +596,7 @@ function carga_sucursales_select(v)
 $(document).ready(function()
 {
   config = new configuration();
-  try
+  /*try
   {
     console.log("aca va el login")
     call_apis.login(config.urlLogin);
@@ -580,7 +606,8 @@ $(document).ready(function()
     console.log("entro en el catch")
     alert("Error en login \nurl : " +  config.urlLogin  + "login/\nverficar login o api");
     console.log(e)
-  }
+  }*/
+  all_apis.native_login(config.urlLogin)
   try
   {
     console.log("agrego menu usuario");
