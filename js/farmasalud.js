@@ -52,7 +52,7 @@ class call_apis
   }
   static get(url)
   {
-    var salida = ""
+    /*var salida = ""
     var type = "GET"
     $.ajax(
     {
@@ -96,14 +96,27 @@ class call_apis
       }
     }).responseJSON;
     console.log("salida es : " + salida)
-    try
+    /*try
     {
       return salida; 
     }
     catch(e)
     {
       throw true;
-    }
+    }*/
+
+    fetch(url, {
+      redirect: "manual"
+  }).then((res) => {
+      console.log(res)
+      if (res.type === "opaqueredirect") {
+          //window.location.href = res.url;
+          console.log(res)
+          console.log(res.url)
+      } else {
+          return res;
+      }
+  });
   }
   
   static post(url_post, postData)
@@ -595,20 +608,20 @@ $(document).ready(function()
     alert("Error en login \nurl : " +  config.urlLogin  + "login/\nverficar login o api");
     console.log(e)
   }
-  try
-  {
+  //try
+  //{
     console.log("agrego menu usuario");
     var user = call_apis.get(config.urlUsers)
     u = new usuario(user.username,user.email,config.logut_url,config.id_menu_usuario,config.id_email,config.id_logout)
     u.datos()
-  }
-  catch (e)
-  {
-    console.log("Problemas al armar el menu de usuario");
-    console.log(e)
-    alert("No pude obtener datos del usuario \nurl : " +  config.urlUsers + "user/\nverficar login o que la api este respondiendo correctamente\n" + e);
-    document.getElementById("menu-usario").innerHTML = "  Problemas con el usuario ";
-  }
+  //}
+  //catch (e)
+  //{
+  //  console.log("Problemas al armar el menu de usuario");
+  //  console.log(e)
+  //  alert("No pude obtener datos del usuario \nurl : " +  config.urlUsers + "user/\nverficar login o que la api este respondiendo correctamente\n" + e);
+  //  document.getElementById("menu-usario").innerHTML = "  Problemas con el usuario ";
+ // }
 });
 
 
