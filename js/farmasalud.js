@@ -34,7 +34,6 @@ class call_apis
         window.location.assign(xhr.responseJSON.url_login + "/" + newURL);
         window.location.href = xhr.responseJSON.url_login + "/" + newURL;
         window.location.replace(xhr.responseJSON.url_login + "/" + newURL);
-        console.log("termino el login fail");
         return data;
       }
     }).responseJSON;
@@ -77,7 +76,9 @@ class call_apis
         console.log(textStatus)
         console.log(xhr);
         console.log(errorThrown);
-        if (confirm ("Error En get : " + textStatus + "\n Probar relogearse ?"  ))
+        //alert("Critical hubo inconvenientes en consultar la api : " + url + "\nVerl el problema con el area de sistemas")
+        console.error("Critical hubo inconvenientes en consultar la api : " + url + "\nVerl el problema con el area de sistemas")
+        /*if (confirm ("Error En get : " + textStatus + "\n Probar relogearse ?"  ))
         {
           console.log("Intentando relogearse")
           call_apis.login( config.urlLogin);
@@ -87,9 +88,7 @@ class call_apis
         {
           console.log("no intento relogearse")
           return false;
-        }
-
-        
+        }*/
       }
     }).responseJSON;
     console.log("salida es : " + salida)
@@ -134,7 +133,9 @@ class call_apis
       {
         console.log('Could not get posts, server response: \n' + e.responseText + ' \nStatus Code : \n' + e.status);
         console.log("ERROR: ", e);
-        if (confirm ("Error En post : " + e.responseText + "\n http response : " + e.status + " \nProbar relogearse ?"  ))
+        console.error("Critical hubo inconvenientes en consultar la api : " + url + "\nVerl el problema con el area de sistemas");
+        //alert("Critical hubo inconvenientes en consultar la api : " + url + "\nVerl el problema con el area de sistemas")
+        /*if (confirm ("Error En post : " + e.responseText + "\n http response : " + e.status + " \nProbar relogearse ?"  ))
         {
           console.log("Intentando relogearse")
           call_apis.login(config.urlLogin);
@@ -144,7 +145,7 @@ class call_apis
         {
           console.log("no intento relogearse")
           return false;
-        }
+        }*/
       }
     }).responseJSON;
     console.log("get post")
@@ -292,9 +293,6 @@ class usuario
     //this.user = call_apis.get(config.urlUsers)
   }
 }
-
-
-
 class maneja_inventory 
 {
   constructor(sucursal,barcode,cantidad,fecha_vencimiento,id_success)
@@ -376,7 +374,6 @@ class mensajes
     $("#" + this.id).html(str);
   }
 }
-
 function agregar_inventario(form,succes_collapse)
 {
   var formID = form.target.id;   //get form ID
@@ -407,7 +404,6 @@ function agregar_inventario(form,succes_collapse)
     }
   }
 }
-
 function select_agregar_eliminar(element,id_date,id_cantidad,cant_max)
 {
   //console.log(element)
@@ -444,6 +440,7 @@ function search_product(elemento,id)
       if ( elemento[I].textLength == 0  )
       {
         // si el campo search esta vacio le agrego el wildcard para que busque todo y no falle
+        console.log("si esta vacio pongo el search %25")
         var search_art = "%25"
       }
       else
@@ -573,6 +570,14 @@ function carga_sucursales_select(v)
 $(document).ready(function()
 {
   config = new configuration();
+  if(navigator.userAgent.indexOf("Firefox") != -1 ) 
+  {
+       console.log('Firefox');
+  }
+  else 
+  {
+     alert('Esta app esta probada en firefox 78\n en otros navegadores pueden aparecer errores');
+  }
   try
   {
     console.log("aca va el login")
