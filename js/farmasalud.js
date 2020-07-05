@@ -1,29 +1,6 @@
 jQuery.support.cors = true;
 class call_apis
-{
-  static native_login(url)
-  {
-    fetch(url, {
-        method: 'GET',
-
-        //credentials: 'include',
-        headers: {
-          "Content-Type": "text/plain",
-          "enable-cors": true
-        },
-    })
-    .then(function(response) {
-        console.log('response =', response);
-        return response.json();
-    })
-    .then(function(data) {
-        console.log('data = ', data);
-    })
-    .catch(function(err) {
-        console.error(err);
-    });
-  }
-  
+{ 
   static login(url)
   {
     var type = "GET"
@@ -32,6 +9,7 @@ class call_apis
       type: type,
       url: url,
       async: false,
+      crossDomain: true,
       xhrFields: {
         withCredentials: true,
         crossDomain: true,
@@ -56,6 +34,7 @@ class call_apis
         var newURL = window.location.host + "" + window.location.pathname ;
         window.location.assign(xhr.responseJSON.url_login + "/" + newURL);
         console.log("termino el login fail");
+        var data = errorThrown ;
         return data;
       }
     }).responseJSON;
@@ -77,12 +56,13 @@ class call_apis
       type: type,
       url: url,
       async: false,
+      crossDomain: true,
       xhrFields: {
         withCredentials: true,
         crossDomain: true,
       },
       headers: {
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'https://farmasaludapi.mgcalvo.com, https://farmasalud.mgcalvo.com,https://login.mgcalvo.com',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
         'Access-Control-Allow-Headers': '*'
       },
@@ -98,7 +78,7 @@ class call_apis
         console.log(textStatus)
         console.log(xhr);
         console.log(errorThrown);
-        if (confirm ("Error En get : " + textStatus + "\n Probar relogearse ?"  ))
+        /*if (confirm ("Error En get : " + textStatus + "\n Probar relogearse ?"  ))
         {
           console.log("Intentando relogearse")
           call_apis.login( config.urlLogin);
@@ -108,7 +88,7 @@ class call_apis
         {
           console.log("no intento relogearse")
           return false;
-        }
+        }*/
 
         
       }
@@ -594,7 +574,7 @@ function carga_sucursales_select(v)
 $(document).ready(function()
 {
   config = new configuration();
-  /*try
+  try
   {
     console.log("aca va el login")
     call_apis.login(config.urlLogin);
@@ -604,9 +584,7 @@ $(document).ready(function()
     console.log("entro en el catch")
     alert("Error en login \nurl : " +  config.urlLogin  + "login/\nverficar login o api");
     console.log(e)
-  }*/
-  call_apis.login(config.urlLogin);
-  call_apis.native_login(config.urlLogin)
+  }
   try
   {
     console.log("agrego menu usuario");
