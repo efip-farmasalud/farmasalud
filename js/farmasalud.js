@@ -56,13 +56,12 @@ class call_apis
       type: type,
       url: url,
       async: false,
-      crossDomain: true,
       xhrFields: {
         withCredentials: true,
         crossDomain: true,
       },
       headers: {
-        'Access-Control-Allow-Origin':'https://farmasaludapi.mgcalvo.com, https://farmasalud.mgcalvo.com,https://login.mgcalvo.com',
+        'Access-Control-Allow-Origin':'*',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
         'Access-Control-Allow-Headers': '*'
       },
@@ -78,7 +77,7 @@ class call_apis
         console.log(textStatus)
         console.log(xhr);
         console.log(errorThrown);
-        /*if (confirm ("Error En get : " + textStatus + "\n Probar relogearse ?"  ))
+        if (confirm ("Error En get : " + textStatus + "\n Probar relogearse ?"  ))
         {
           console.log("Intentando relogearse")
           call_apis.login( config.urlLogin);
@@ -88,7 +87,7 @@ class call_apis
         {
           console.log("no intento relogearse")
           return false;
-        }*/
+        }
 
         
       }
@@ -574,6 +573,33 @@ function carga_sucursales_select(v)
 $(document).ready(function()
 {
   config = new configuration();
+
+  if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) 
+  {
+      alert('Opera');
+  }
+  else if(navigator.userAgent.indexOf("Chrome") != -1 )
+  {
+      alert('Chrome');
+  }
+  else if(navigator.userAgent.indexOf("Safari") != -1)
+  {
+      alert('Safari');
+  }
+  else if(navigator.userAgent.indexOf("Firefox") != -1 ) 
+  {
+       alert('Firefox');
+  }
+  else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+  {
+    alert('IE'); 
+  }  
+  else 
+  {
+     alert('unknown');
+  }
+
+  
   try
   {
     console.log("aca va el login")
