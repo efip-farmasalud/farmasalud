@@ -64,7 +64,7 @@ class call_apis
         crossDomain: true,
       },
       headers: {
-        'Access-Control-Allow-Origin':'https://farmasalud.mgcalvo.com, https://farmasaludapi.mgcalvo.com, https://login.mgcalvo.com',
+        'Access-Control-Allow-Origin':'*',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
         'Access-Control-Allow-Headers': '*'
       },
