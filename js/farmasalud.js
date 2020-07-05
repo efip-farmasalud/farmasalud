@@ -1,6 +1,6 @@
 jQuery.support.cors = true;
 class call_apis
-{ 
+{
   static login(url)
   {
     var type = "GET"
@@ -9,7 +9,6 @@ class call_apis
       type: type,
       url: url,
       async: false,
-      crossDomain: true,
       xhrFields: {
         withCredentials: true,
         crossDomain: true,
@@ -32,12 +31,10 @@ class call_apis
         console.log(errorThrown);
         console.log(xhr.responseJSON.url_login);
         var newURL = window.location.host + "" + window.location.pathname ;
-        //window.location.assign(xhr.responseJSON.url_login + "/" + newURL);
-        //window.location.href = xhr.responseJSON.url_login + "/" + newURL;
-        //window.location.replace(xhr.responseJSON.url_login + "/" + newURL);
-        //window.location = xhr.responseJSON.url_login + "/" + newURL;
+        window.location.assign(xhr.responseJSON.url_login + "/" + newURL);
+        window.location.href = xhr.responseJSON.url_login + "/" + newURL;
+        window.location.replace(xhr.responseJSON.url_login + "/" + newURL);
         console.log("termino el login fail");
-        var data = errorThrown ;
         return data;
       }
     }).responseJSON;
@@ -52,7 +49,7 @@ class call_apis
   }
   static get(url)
   {
-    /*var salida = ""
+    var salida = ""
     var type = "GET"
     $.ajax(
     {
@@ -96,27 +93,14 @@ class call_apis
       }
     }).responseJSON;
     console.log("salida es : " + salida)
-    /*try
+    try
     {
       return salida; 
     }
     catch(e)
     {
       throw true;
-    }*/
-
-    fetch(url, {
-      redirect: "manual"
-  }).then((res) => {
-      console.log(res)
-      if (res.type === "opaqueredirect") {
-          window.location.href = res.url;
-          console.log(res)
-          console.log(res.url)
-      } else {
-          return res;
-      }
-  });
+    }
   }
   
   static post(url_post, postData)
@@ -589,14 +573,6 @@ function carga_sucursales_select(v)
 $(document).ready(function()
 {
   config = new configuration();
-  if(navigator.userAgent.indexOf("Firefox") != -1 ) 
-  {
-       console.log("navegador firefox soportado :)");
-  }
-  else
-  {
-      alert('navegador no soportado.\nel unico navegador soportado el firefox 78.01 para arriba');
-  }
   try
   {
     console.log("aca va el login")
@@ -608,20 +584,20 @@ $(document).ready(function()
     alert("Error en login \nurl : " +  config.urlLogin  + "login/\nverficar login o api");
     console.log(e)
   }
-  //try
-  //{
+  try
+  {
     console.log("agrego menu usuario");
     var user = call_apis.get(config.urlUsers)
     u = new usuario(user.username,user.email,config.logut_url,config.id_menu_usuario,config.id_email,config.id_logout)
     u.datos()
-  //}
-  //catch (e)
-  //{
-  //  console.log("Problemas al armar el menu de usuario");
-  //  console.log(e)
-  //  alert("No pude obtener datos del usuario \nurl : " +  config.urlUsers + "user/\nverficar login o que la api este respondiendo correctamente\n" + e);
-  //  document.getElementById("menu-usario").innerHTML = "  Problemas con el usuario ";
- // }
+  }
+  catch (e)
+  {
+    console.log("Problemas al armar el menu de usuario");
+    console.log(e)
+    alert("No pude obtener datos del usuario \nurl : " +  config.urlUsers + "user/\nverficar login o que la api este respondiendo correctamente\n" + e);
+    document.getElementById("menu-usario").innerHTML = "  Problemas con el usuario ";
+  }
 });
 
 
