@@ -32,7 +32,10 @@ class call_apis
         console.log(errorThrown);
         console.log(xhr.responseJSON.url_login);
         var newURL = window.location.host + "" + window.location.pathname ;
-        window.location.assign(xhr.responseJSON.url_login + "/" + newURL);
+        //window.location.assign(xhr.responseJSON.url_login + "/" + newURL);
+        //window.location.href = xhr.responseJSON.url_login + "/" + newURL;
+        //window.location.replace(xhr.responseJSON.url_login + "/" + newURL);
+        //window.location = xhr.responseJSON.url_login + "/" + newURL;
         console.log("termino el login fail");
         var data = errorThrown ;
         return data;
@@ -61,7 +64,7 @@ class call_apis
         crossDomain: true,
       },
       headers: {
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'https://farmasalud.mgcalvo.com, https://farmasaludapi.mgcalvo.com, https://login.mgcalvo.com',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
         'Access-Control-Allow-Headers': '*'
       },
@@ -573,33 +576,14 @@ function carga_sucursales_select(v)
 $(document).ready(function()
 {
   config = new configuration();
-
-  if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) 
+  if(navigator.userAgent.indexOf("Firefox") != -1 ) 
   {
-      alert('Opera');
+       console.log("navegador firefox soportado :)");
   }
-  else if(navigator.userAgent.indexOf("Chrome") != -1 )
+  else
   {
-      alert('Chrome');
+      alert('navegador no soportado.\nel unico navegador soportado el firefox 78.01 para arriba');
   }
-  else if(navigator.userAgent.indexOf("Safari") != -1)
-  {
-      alert('Safari');
-  }
-  else if(navigator.userAgent.indexOf("Firefox") != -1 ) 
-  {
-       alert('Firefox');
-  }
-  else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
-  {
-    alert('IE'); 
-  }  
-  else 
-  {
-     alert('unknown');
-  }
-
-  
   try
   {
     console.log("aca va el login")
