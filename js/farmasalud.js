@@ -110,7 +110,7 @@ class call_apis
   }).then((res) => {
       console.log(res)
       if (res.type === "opaqueredirect") {
-          //window.location.href = res.url;
+          window.location.href = res.url;
           console.log(res)
           console.log(res.url)
       } else {
