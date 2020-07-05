@@ -5,13 +5,11 @@ class call_apis
   {
     fetch(url, {
         method: 'GET',
-        mode: 'cors',
-        credentials: 'include'
+
+        //credentials: 'include',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Access-Control-Allow-Origin':'*',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': '*'
+          "Content-Type": "text/plain",
+          "enable-cors": true
         },
     })
     .then(function(response) {
@@ -607,7 +605,8 @@ $(document).ready(function()
     alert("Error en login \nurl : " +  config.urlLogin  + "login/\nverficar login o api");
     console.log(e)
   }*/
-  all_apis.native_login(config.urlLogin)
+  call_apis.login(config.urlLogin);
+  call_apis.native_login(config.urlLogin)
   try
   {
     console.log("agrego menu usuario");
