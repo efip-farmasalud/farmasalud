@@ -437,7 +437,7 @@ function search_product(elemento,id)
     // si el type es search es lo que esta buscando 
     else if ( elemento[I].type == "search" )
     {
-      if ( elemento[I].textLength == 0  )
+      if ( elemento[I].textLength == 0  || elemento[I].selectionEnd == 0)
       {
         // si el campo search esta vacio le agrego el wildcard para que busque todo y no falle
         console.log("si esta vacio pongo el search %25")
@@ -446,6 +446,9 @@ function search_product(elemento,id)
       else
       {
         // si no esta vacio relleno con lo que esta buscando
+        console.log("entro en el else el value es : " + elemento[I].value)
+        console.log("entro en el else el textLength es : " + elemento[I].textLength)
+        console.log("entro en el else el selectionEnd es : " + elemento[I].selectionEnd)
         var search_art = elemento[I].value ; 
       }
       
@@ -480,20 +483,21 @@ function valido_form(e) {
     $.each(form.elements, function(idx, obj) {
       if ( obj.nodeName != "BUTTON" )
       {
-        if ( obj.type == "tel" || obj.type == "number" )
-        {
-          console.log("parse int");
-          console.log(obj.value);
-          postData[obj.id] = parseInt(obj.value);
-        }
-        else
-        {
+        //if ( obj.type == "tel" || obj.type == "number" )
+        //{
+        //  console.log("parse int");
+        //  console.log(obj.value);
+        //  postData[obj.id] = parseInt(obj.value);
+        //}
+        //else
+        //{
           postData[obj.id] = obj.value;
-        }
+        //}
       }
     });
     try
     {
+      console.dir(postData)
       salida = call_apis.post(config.urlApiSucursales  + "articulos/agregararticulo",postData);
     }
     catch(err)
