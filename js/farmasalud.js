@@ -483,16 +483,17 @@ function valido_form(e) {
     $.each(form.elements, function(idx, obj) {
       if ( obj.nodeName != "BUTTON" )
       {
-        //if ( obj.type == "tel" || obj.type == "number" )
-        //{
-        //  console.log("parse int");
-        //  console.log(obj.value);
-        //  postData[obj.id] = parseInt(obj.value);
-        //}
-        //else
-        //{
+        if (obj.type == "number" )
+        {
+          console.log("parse int");
+          console.log(obj.value);
+          postData[obj.id] = parseFloat(obj.value);
+          console.dir(parseFloat(obj.value))
+        }
+        else
+        {
           postData[obj.id] = obj.value;
-        //}
+        }
       }
     });
     try
@@ -574,14 +575,14 @@ function carga_sucursales_select(v)
 $(document).ready(function()
 {
   config = new configuration();
-  if(navigator.userAgent.indexOf("Firefox") != -1 ) 
+  /*if(navigator.userAgent.indexOf("Firefox") != -1 ) 
   {
        console.log('Firefox');
   }
   else 
   {
      alert('Esta app esta probada en firefox 78\n en otros navegadores pueden aparecer errores');
-  }
+  }*/
   try
   {
     console.log("aca va el login")
