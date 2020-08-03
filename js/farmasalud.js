@@ -461,7 +461,7 @@ function search_product(elemento,id)
   //Actualizo el div lista_de_producto con el inventory encontrado
   maneja_inventory.list(json_allproduct,id,select_sucu,checkbox_art)
 }
-
+/* form agregar articulo */
 function valido_form(e) {
   //console.log(e)
   // Valido form echo con bootstrap
@@ -527,6 +527,7 @@ function valido_form(e) {
   }
   return false
 }
+/* Cargo los select de las sucursales si ya esta cargado no lo vuelvo a cargar asi no se duplican */
 function carga_sucursales_select(v)
 {
   try
