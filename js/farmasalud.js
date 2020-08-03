@@ -154,8 +154,81 @@ class call_apis
   }
 }
 
-class inventory
+class usuario 
 {
+  constructor(usuario,email,logout,id_menu_usuario,id_email,id_logout)
+  {
+    this.user = usuario;
+    this.email = email;
+    this.logout = logout;
+    this.id_menu_usuario = id_menu_usuario;
+    this.id_email = id_email;
+    this.id_logout = id_logout;
+  }
+  datos ()
+  {
+    document.getElementById(this.id_menu_usuario).innerHTML = " " + this.user + "";
+    document.getElementById(this.id_email).innerHTML = " " + this.email + "";
+    document.getElementById(this.id_logout).href = this.logout;
+    //this.user = call_apis.get(config.urlUsers)
+  }
+}
+class maneja_inventory 
+{
+  constructor(sucursal,barcode,cantidad,fecha_vencimiento,id_success)
+  {
+    this.sucursal = sucursal;
+    this.cantidad = cantidad;
+    this.fecha_vencimiento = fecha_vencimiento;
+    this.barcode = barcode;
+    this.id_success = id_success;
+  }
+  agregar()
+  {
+    console.log(this.sucursal);
+    console.log(this.cantidad);
+    console.log(this.fecha_vencimiento);
+    console.log(this.barcode)
+    var postData = {};
+    var postData = {};
+    postData["sucursal_id"] = parseInt(this.sucursal) ;
+    postData["cantidad"] = parseInt(this.cantidad);
+    postData["fecha_vencimiento"] = this.fecha_vencimiento;
+    postData["barcode"] = this.barcode;
+    var salida = call_apis.post(config.urlInventario  + "agregarinventario",postData);
+    var men = new mensajes(this.id_success);
+    if ( salida.statusCode == 200 )
+    {
+      men.success("inventario Agregado Correctamente")
+      return false;
+    }
+    else
+    {
+      men.error("Hubo un problema al agregar" + salida.statusCode + "\n\nstatus : " + salida.status + "\n\nmessage : " + salida.message)
+      return false;
+    }
+  }
+  eliminar()
+  {
+    var postData = {};
+    var postData = {};
+    postData["sucursal_id"] = parseInt(this.sucursal) ;
+    postData["cantidad"] = parseInt(this.cantidad);
+    postData["fecha_vencimiento"] = this.fecha_vencimiento;
+    postData["barcode"] = this.barcode;
+    var salida = call_apis.post(config.urlInventario  + "eliminarinventario",postData);
+    var men = new mensajes(this.id_success);
+    if ( salida.statusCode == 200 )
+    {
+      men.success("inventario Eliminado Correctamente")
+      return false;
+    }
+    else
+    {
+      men.error("Hubo un problema al eliminar\nstatusCode : " + salida.statusCode + "\n\nstatus : " + salida.status + "\n\message : " + salida.message )
+      return false;
+    }
+  }
   static list(elements, id, select_sucu, checkbox_art)
   {
     //console.log(elements)
@@ -176,6 +249,7 @@ class inventory
             var myTime = new moment.utc(obj.fecha_venc, "Do/MM/YYYY").utc();
             var fechavencimiento = myTime.toISOString().substr(0, 10);
           }
+          //Aleatorio es para armar id dinamicos
           var aleatorio = Math.floor(Math.random() * 100000000);
           var ids_form = obj.nombre + obj.barcode + obj.sucursales_id + aleatorio ;
           var ids_form = ids_form.replace(/ /gm,'');
@@ -270,84 +344,6 @@ class inventory
       }
     });  
     $("#" + id).html(str); 
-  }
-
-}
-
-class usuario 
-{
-  constructor(usuario,email,logout,id_menu_usuario,id_email,id_logout)
-  {
-    this.user = usuario;
-    this.email = email;
-    this.logout = logout;
-    this.id_menu_usuario = id_menu_usuario;
-    this.id_email = id_email;
-    this.id_logout = id_logout;
-  }
-  datos ()
-  {
-    document.getElementById(this.id_menu_usuario).innerHTML = " " + this.user + "";
-    document.getElementById(this.id_email).innerHTML = " " + this.email + "";
-    document.getElementById(this.id_logout).href = this.logout;
-    //this.user = call_apis.get(config.urlUsers)
-  }
-}
-class maneja_inventory 
-{
-  constructor(sucursal,barcode,cantidad,fecha_vencimiento,id_success)
-  {
-    this.sucursal = sucursal;
-    this.cantidad = cantidad;
-    this.fecha_vencimiento = fecha_vencimiento;
-    this.barcode = barcode;
-    this.id_success = id_success;
-  }
-  agregar()
-  {
-    console.log(this.sucursal);
-    console.log(this.cantidad);
-    console.log(this.fecha_vencimiento);
-    console.log(this.barcode)
-    var postData = {};
-    var postData = {};
-    postData["sucursal_id"] = parseInt(this.sucursal) ;
-    postData["cantidad"] = parseInt(this.cantidad);
-    postData["fecha_vencimiento"] = this.fecha_vencimiento;
-    postData["barcode"] = this.barcode;
-    var salida = call_apis.post(config.urlInventario  + "agregarinventario",postData);
-    var men = new mensajes(this.id_success);
-    if ( salida.statusCode == 200 )
-    {
-      men.success("inventario Agregado Correctamente")
-      return false;
-    }
-    else
-    {
-      men.error("Hubo un problema al agregar" + salida.statusCode + "\n\nstatus : " + salida.status + "\n\nmessage : " + salida.message)
-      return false;
-    }
-  }
-  eliminar()
-  {
-    var postData = {};
-    var postData = {};
-    postData["sucursal_id"] = parseInt(this.sucursal) ;
-    postData["cantidad"] = parseInt(this.cantidad);
-    postData["fecha_vencimiento"] = this.fecha_vencimiento;
-    postData["barcode"] = this.barcode;
-    var salida = call_apis.post(config.urlInventario  + "eliminarinventario",postData);
-    var men = new mensajes(this.id_success);
-    if ( salida.statusCode == 200 )
-    {
-      men.success("inventario Eliminado Correctamente")
-      return false;
-    }
-    else
-    {
-      men.error("Hubo un problema al eliminar\nstatusCode : " + salida.statusCode + "\n\nstatus : " + salida.status + "\n\message : " + salida.message )
-      return false;
-    }
   }
 }
 class mensajes
@@ -461,7 +457,7 @@ function search_product(elemento,id)
   //Le pego a la api y me traigo todos los productos que coincidan con el nombre de inventario
   json_allproduct = call_apis.get(config.urlInventario + search_art)
   //Actualizo el div lista_de_producto con el inventory encontrado
-  inventory.list(json_allproduct,id,select_sucu,checkbox_art)
+  maneja_inventory.list(json_allproduct,id,select_sucu,checkbox_art)
 }
 
 function valido_form(e) {
