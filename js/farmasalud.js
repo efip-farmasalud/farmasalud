@@ -370,6 +370,7 @@ class mensajes
     $("#" + this.id).html(str);
   }
 }
+/* Esta funcion la uso desde el html generado dinamicamente */
 function agregar_inventario(form,succes_collapse)
 {
   var formID = form.target.id;   //get form ID
@@ -400,6 +401,7 @@ function agregar_inventario(form,succes_collapse)
     }
   }
 }
+/* Esta funcion la uso desde el html generado dinamicamente */
 function select_agregar_eliminar(element,id_date,id_cantidad,cant_max)
 {
   //console.log(element)
@@ -419,7 +421,7 @@ function select_agregar_eliminar(element,id_date,id_cantidad,cant_max)
     alert("CRITICAL AMIGO ENTRO EN ELSE NO DEBERIA ENTRAR ACA \nRELOJEA EL CODIGO SEGURO ESTA TODO MAL ")
   }
 }
-
+/* Esta funcion la uso desde el html */
 function search_product(elemento,id)
 {
   // Tomo los elementos del campo search que tiene como id "buscar_producto"
